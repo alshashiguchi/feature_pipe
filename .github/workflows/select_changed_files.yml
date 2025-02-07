@@ -15,12 +15,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 🚀 Garante acesso ao histórico de commits
 
       - name: Select changed files
         id: changed-files
         run: |
-          FILES=$(git diff --name-only origin/main HEAD | grep 'features/.*/dados.*json' || true)
-          echo "Arquivos alterados:"
+          BASE_BRANCH="origin/main"
+          FILES=$(git diff --name-only $BASE_BRANCH...HEAD | grep 'features/.*/dados.*json' || true)
+
+          echo "Files changed:"
           echo "$FILES"
+
+          # Formatar como JSON para saída do workflow
           echo "modified_files=$(echo "$FILES" | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
           echo "modified_files=$(echo "$FILES" | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+
