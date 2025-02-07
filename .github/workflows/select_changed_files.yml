@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       changed_files:
-        description: "Lista de arquivos alterados"
+        description: "List changed files"
         value: ${{ jobs.get_changed_files.outputs.changed_files }}
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Select changed files
         id: changed-files
         run: |
-          FILES=$(git diff --name-only HEAD~1 HEAD | grep 'features/.*/dados.*json' || true)
+          FILES=$(git diff --name-only origin/main HEAD | grep 'features/.*/dados.*json' || true)
           echo "Arquivos alterados:"
           echo "$FILES"
           echo "modified_files=$(echo "$FILES" | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
