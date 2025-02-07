@@ -1,4 +1,4 @@
-name: Selecionar Arquivos Alterados
+name: Select changed files
 
 on:
   workflow_call:
