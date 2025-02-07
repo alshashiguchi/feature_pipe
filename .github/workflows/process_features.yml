@@ -7,6 +7,12 @@ on:
     paths:
       - 'features/**'
 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'features/**'
+
 jobs:
   select-file:
     uses: ./.github/workflows/select_changed_files.yml
