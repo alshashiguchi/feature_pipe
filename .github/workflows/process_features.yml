@@ -7,6 +7,12 @@ on:
     paths:
       - 'features/**'
 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'features/**'
+
 jobs:
   select-file:
     uses: ./.github/workflows/select_changed_files.yml
@@ -21,7 +27,12 @@ jobs:
       - name: Install python dependencies
         run: |
           sudo apt update && sudo apt install -y python3 python3-pip
-          pip install requests
+          pip install pytest requests 
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          pytest --maxfail=1 --disable-warnings -q 
 
       - name: Process changed files
         env:
@@ -29,10 +40,10 @@ jobs:
         run: |
           echo "Files to process: $CHANGED_FILES"
 
-          for dados_file in $(echo $CHANGED_FILES | jq -r '.[]'); do
+          for dados_file in $(echo "$CHANGED_FILES" | jq -r '.[]'); do
             config_file=$(echo "$dados_file" | sed 's/dados/config/g')
             if [[ -f "$config_file" ]]; then
-              echo "Processing $dados_file com $config_file ..."
+              echo "Processing $dados_file with $config_file ..."
               python3 scripts/process_feature.py "$dados_file" "$config_file"
             else
               echo "Configuration file not found for: $dados_file"

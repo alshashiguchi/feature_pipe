@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       changed_files:
-        description: "Lista de arquivos alterados"
+        description: "List changed files"
         value: ${{ jobs.get_changed_files.outputs.changed_files }}
 
 jobs:
@@ -15,12 +15,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Garante acesso ao histórico de commits para poder comparar
 
       - name: Select changed files
         id: changed-files
         run: |
-          FILES=$(git diff --name-only HEAD~1 HEAD | grep 'features/.*/dados.*json' || true)
-          echo "Arquivos alterados:"
+          BASE_BRANCH="origin/main"
+          FILES=$(git diff --name-only $BASE_BRANCH...HEAD | grep 'features/.*/dados.*json' || true)
+
+          echo "Files changed:"
           echo "$FILES"
+
+          # Formatar como JSON para saída do workflow
           echo "modified_files=$(echo "$FILES" | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
           echo "modified_files=$(echo "$FILES" | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+
