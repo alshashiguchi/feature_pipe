@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # 🚀 Garante acesso ao histórico de commits
+          fetch-depth: 0  # Garante acesso ao histórico de commits para poder comparar
 
       - name: Select changed files
         id: changed-files

@@ -35,10 +35,10 @@ jobs:
         run: |
           echo "Files to process: $CHANGED_FILES"
 
-          for dados_file in $(echo $CHANGED_FILES | jq -r '.[]'); do
+          for dados_file in $(echo "$CHANGED_FILES" | jq -r '.[]'); do
             config_file=$(echo "$dados_file" | sed 's/dados/config/g')
             if [[ -f "$config_file" ]]; then
-              echo "Processing $dados_file com $config_file ..."
+              echo "Processing $dados_file with $config_file ..."
               python3 scripts/process_feature.py "$dados_file" "$config_file"
             else
               echo "Configuration file not found for: $dados_file"
