@@ -26,7 +26,7 @@ def processar_arquivo(dados_path, config_path):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Uso: python processa_json.py <caminho_dados.json> <caminho_config.json>")
+        print("Uso: python processa_feature.py <caminho_dados.json> <caminho_config.json>")
         sys.exit(1)
 
     dados_json = sys.argv[1]
