@@ -27,7 +27,12 @@ jobs:
       - name: Install python dependencies
         run: |
           sudo apt update && sudo apt install -y python3 python3-pip
-          pip install requests
+          pip install pytest requests 
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          pytest --maxfail=1 --disable-warnings -q 
 
       - name: Process changed files
         env:
