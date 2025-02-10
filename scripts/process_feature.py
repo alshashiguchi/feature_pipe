@@ -12,6 +12,7 @@ def processar_arquivo(data_path, config_path):
     
     # Ler os dados da feature
     with open(data_path, 'r', encoding='utf-8') as dados_file:
+
         dados = json.load(dados_file)
     
     # Enviar a requisição para a API
